@@ -18,20 +18,41 @@ instructions to set up your development environment.  Although they mention inst
 IDE, all you really need is the [Pico SDK](https://github.com/raspberrypi/pico-sdk) and the required command line tools
 (CMake, et cetera).
 
-### Building the Binaries
+## Building and Installing
 
-These instructions assume a unix-like shell like the terminal on OS X.  You'll first need to either temporarily or
-permanently set the `PICO_SDK_PATH` environment variable. If you followed the instructions in the Pico guide, you'll be
-working in a directory next to the pico-sdk downloads, and this path would be `../../pico-sdk`.  You can also find the
-path by navigating to the SDK in a terminal and typing `pwd`.
+### VS Code and a PiProbe
 
+If you have a PiProbe, you should be able to use the debugger configuration in this project to build, install (and
+debug) the code here.
+
+First, you should check the paths in `.vscode/launch.json`and `.vscode/settings.json` and update them as
+needed to match your system. Then, you should be able to just hit the debugger icon and choose the configuration
+defined in `.vscode/launch.json`.
+
+The application will be built, deployed, and will pause execution at the beginning of the `main()` function.
+
+### Command Line Tools
+
+To build the application from the command line, you can use commands like the following, starting at the root the
+repository:
 
 ```
-export PICO_SDK_PATH=<your path>
 mkdir build
 cd build
 cmake ..
-make
+make -j4
+```
+
+The last command assumes you have four cores, adjust as needed. Once the build completes, there are two ways to install
+the application.
+
+If you don't have a PiProbe, reboot your Pico while holding the "Bootsel" button, then drag the generated UF2 file
+onto the USB drive that appears.
+
+If you have a PiProbe, you can install the program without resetting your Pico using a command like:
+
+```
+sudo openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000" -c "program pico-explorer-clock.elf verify reset exit"
 ```
 
 ### Installing on a Pico
