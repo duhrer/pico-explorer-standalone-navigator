@@ -49,10 +49,10 @@ the application.
 If you don't have a PiProbe, reboot your Pico while holding the "Bootsel" button, then drag the generated UF2 file
 onto the USB drive that appears.
 
-If you have a PiProbe, you can install the program without resetting your Pico using a command like:
+If you have a PiProbe, you can install the program without resetting your Pico using a command like the following from the `build` directory:
 
 ```
-sudo openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000" -c "program pico-explorer-clock.elf verify reset exit"
+sudo openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000" -c "program pico-explorer-standalone-navigator.elf verify reset exit"
 ```
 
 ### Installing on a Pico
